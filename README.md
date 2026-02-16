@@ -30,6 +30,7 @@ A secure CLI‑based password generator with support for customizable length, Un
 - [Architecture](#architecture)
 - [Requirements](#requirements)
 - [Installation](#installation)
+- [Flags](#flags)
 
 
 ## Overview
@@ -191,3 +192,26 @@ What is required to build or run the project?
   sudo apt install ./passgen_x.x.x_amd64.deb
   ```
   3. Now you can execute the program by typing ``passgen`` in your terminal
+
+## Flags
+
+``Defining Length 0-1000``
+
+```bash
+-l <length>
+```
+``Toggle Unicode``
+
+```bash
+-u 
+```
+``Skipp HIBP``
+
+```bash
+--no-check 
+```
+``Show help``
+
+```bash
+--help
+```
