@@ -195,15 +195,15 @@ What is required to build or run the project?
 
 ## Flags
 
-``Defining Length``
+``Defining Length 0-1000``
 
 ```bash
--l <specify length 0-1000>
+-l <length>
 ```
 ``Toggle Unicode``
 
 ```bash
--u unicode -> characters = yes
+-u 
 ```
 ``Skipp HIBP``
 
