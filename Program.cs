@@ -34,7 +34,8 @@ namespace myapp
             
             Created By
             @Nevio_source
-
+            
+            quit with `CTRL + C`
             """;
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine(bänner);
@@ -153,7 +154,7 @@ namespace myapp
 
         static string ping()
         {
-            string host = "8.8.8.8";
+            string host = "1.1.1.1";
             Ping ping = new Ping();
             
             try
@@ -203,7 +204,131 @@ namespace myapp
 
         
         string Network = ping();
+    
+        
+        
+        
+        
+        
+        //Adding flags
+        
+        // ===== FLAG SYSTEM =====
+        int? lengthFlag = null;
+        bool unicodeFlag = false;
+        bool skipCheck = false;
+        bool help = false;
 
+        for (int i = 0; i < args.Length; i++)
+        {
+            switch (args[i])
+            {
+                case "-l":
+                    if (i + 1 < args.Length && int.TryParse(args[i + 1], out int parsedLength))
+                    {
+                        lengthFlag = parsedLength;
+                        i++; // nächstes Argument überspringen
+                    }
+                    break;
+
+                case "-u":
+                    unicodeFlag = true;
+                    break;
+
+                case "--no-check":
+                    skipCheck = true;
+                    break;
+
+                case "--help":
+                    help = true;
+                    break;
+            }
+        }
+
+// Wenn Flags gesetzt wurden → direkt generieren (kein Dialog)
+        bool fastMode = args.Length > 0;
+
+        if (help)
+        {
+            string help_readme = """
+            
+            FLAGS:
+
+            -l -> <specify lengt 0-1000>
+            
+            -u unicode -> characters = yes
+            
+            --no-check -> skip HIBP check
+
+            --help -> shows help
+            
+            """;     
+            Console.WriteLine(help_readme);
+            return;
+        }
+        
+        if (fastMode)
+        {
+            int length_re = lengthFlag ?? 20;
+
+            if (length_re < 1) length_re = 20;
+            if (length_re > 1000) length_re = 1000;
+
+            if (unicodeFlag == true)
+            {
+                lexicon = alphabet + unicodeChars;
+            }
+                else
+                {
+                    lexicon = alphabet;
+                }
+
+
+            string hash = gethash();
+            byte[] bytes = Convert.FromHexString(hash);
+
+            while (bytes.Length < length_re)
+            {
+                hash += gethash();
+                bytes = Convert.FromHexString(hash);
+            }
+
+            List<char> passwordChars = new List<char>();
+            for (int i = 0; i < length_re; i++)
+            {
+                int index = bytes[i] % lexicon.Length;
+                passwordChars.Add(lexicon[index]);
+            }
+
+            string password = new string(passwordChars.ToArray());
+            string border_ascci = new string('-', length_re);
+
+            Console.WriteLine(border_ascci);
+            Console.ForegroundColor = ConsoleColor.DarkMagenta;
+            Console.WriteLine(password);
+            Console.ResetColor();
+            Console.WriteLine(border_ascci);
+
+            if (!skipCheck && Network == "up")
+            {
+                string result = await Check_if_pawnd(password);
+                Console.WriteLine();
+                Console.ForegroundColor = ConsoleColor.Blue;
+                if (result == "true")
+                    Console.WriteLine("Password leaked!");
+                else if (result == "false")
+                    Console.WriteLine("Password safe.");
+                Console.ResetColor();
+            }
+
+            return; // 🚀 WICHTIG → beendet Programm, kein Dialog
+        }
+
+        
+        
+        
+        
+        
+            // start of dialog loop
             while (true)
             {
                 Console.Clear();
