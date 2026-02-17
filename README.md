@@ -42,7 +42,7 @@ I created PassGen to ensure strong, unpredictable passwords. All planned feature
 
 Goals:
 1. Generate purely random passwords.
-2. Avoid known passwords via HIBP checks.
+2. Avoid known passwords via [HIBP](https://haveibeenpwned.com/) checks.
 3. Provide flexible Unicode support.
 
 <br>
