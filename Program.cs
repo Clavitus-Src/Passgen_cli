@@ -1,14 +1,12 @@
-﻿using System;
-using System.Diagnostics;
-using System.Formats.Asn1;
+﻿using System.Diagnostics;
 using System.Net.NetworkInformation;
 using System.Security.Cryptography;
 using System.Text;
-using System.Text.Json;
+using TextCopy;
 
 
 
-namespace myapp
+namespace Passgen
 {
     internal class Programm
     {
@@ -153,7 +151,7 @@ namespace myapp
 
         static string ping()
         {
-            string host = "8.8.8.8";
+            string host = "9.9.9.9";
             Ping ping = new Ping();
             
             try
@@ -341,12 +339,15 @@ namespace myapp
                 }
 
                 
-
-
                 Console.ResetColor();
-                Console.ResetColor();
-                Console.WriteLine("\nPress any key to generate a new password...");
-                Console.ReadKey(); // **Warte auf Benutzer**, bevor es neu startet
+                Console.WriteLine("\nPress any key to generate a new password, or C to copie first");
+
+                if (Console.ReadKey().Key == ConsoleKey.C)
+                {
+                    ClipboardService.SetText(password);
+                }
+                
+                
             }
         }
     }
