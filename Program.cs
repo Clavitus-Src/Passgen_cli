@@ -341,10 +341,22 @@ namespace Passgen
                 
                 Console.ResetColor();
                 Console.WriteLine("\nPress any key to generate a new password, or C to copie first");
-
+                
                 if (Console.ReadKey().Key == ConsoleKey.C)
                 {
-                    ClipboardService.SetText(password);
+                    try
+                    {
+                        ClipboardService.SetText(password);
+                    }
+                    catch (Exception)
+                    {
+                        Console.ForegroundColor = ConsoleColor.Yellow;
+                        Console.WriteLine("\nCopy failed. Linux: install xsel (sudo apt install xsel)");
+                        Console.ResetColor();
+                        Console.ReadKey();
+                    }
+                    
+                    
                 }
                 
                 
